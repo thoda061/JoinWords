@@ -113,7 +113,32 @@ public class JoinUp{
      *                  wise.
      */
     public static boolean joinWords(String first,String second,int joinType) {
-        return true;
+        int length = first.length() > second.length() ? second.length() : first.length();
+        int counter = 0;
+        int match = 0;
+
+        while (counter < length) {
+
+            if (first.charAt(first.length() - 1 - counter) == second.charAt(counter)) {
+                match++;
+            } else {
+                //System.out.println("Matched to " + match + " before reset"); 
+                match = 0;
+            }
+
+            counter++;
+        }
+        if (joinType == 0 && match > length/2) {
+            return true;
+        }
+        
+        if (joinType == 1 ) {
+            if (match > first.length() / 2 + first.length() % 2 
+                    && match > second.length() /2 + second.length() % 2) {
+                return true;
+            }
+        }
+        return false;
     }
         
 }
