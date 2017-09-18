@@ -1,5 +1,7 @@
 import java.util.*;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
 /**
  * Class that takes two words and a dictionary and output the shortest sequence
  * of doubly and singly joined words from the dictionary which are between the
@@ -114,20 +116,25 @@ public class JoinUp{
      */
     public static boolean joinWords(String first,String second,int joinType) {
         int length = first.length() > second.length() ? second.length() : first.length();
-        int counter = 0;
-        int match = 0;
+        int match = length;
 
-        while (counter < length) {
+        while (match > 0) {
+            
+            String suf = first.substring(first.length() - (match - 1));
+            String pre = second.substring(0, match-1); 
 
-
-            if (first.charAt(first.length() - 1 - counter) == second.charAt(counter)) {           
-                match++;
-            } else {
+            if (suf.equals(pre)) {
                 break;
             }
 
-            counter++;
+            match--;
         }
+
+        // try {
+        //     Thread.sleep(100);
+        // } catch (InterruptedException e) {}
+
+        
         if (joinType == 0 && match > length/2) {
             return true;
         }
