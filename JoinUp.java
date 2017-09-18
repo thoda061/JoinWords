@@ -117,9 +117,9 @@ public class JoinUp{
         int length = first.length() > second.length() ? second.length() : first.length();
         int match = length;
 
-        while (match > 0) {
+        while (match > length/2 + length%2) {
             
-            String suf = first.substring(first.length() - (match - 1));
+            String suf = first.substring(first.length() - (match-1));
             String pre = second.substring(0, match-1); 
 
             if (suf.equals(pre)) {
