@@ -119,11 +119,11 @@ public class JoinUp{
 
         while (counter < length) {
 
-            if (first.charAt(first.length() - 1 - counter) == second.charAt(counter)) {
+
+            if (first.charAt(first.length() - 1 - counter) == second.charAt(counter)) {           
                 match++;
             } else {
-                //System.out.println("Matched to " + match + " before reset"); 
-                match = 0;
+                break;
             }
 
             counter++;
