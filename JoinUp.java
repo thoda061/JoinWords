@@ -33,6 +33,7 @@ public class JoinUp{
         while (sc.hasNextLine()) {
             dict.add(sc.nextLine());
         }
+        sc.close();
 
         findSequence();
     }
