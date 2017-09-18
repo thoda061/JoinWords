@@ -135,7 +135,7 @@ public class JoinUp{
         // } catch (InterruptedException e) {}
 
         
-        if (joinType == 0 && match > length/2) {
+        if (joinType == 0 && match > length/2 + length % 2) {
             return true;
         }
         
