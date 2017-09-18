@@ -1,7 +1,5 @@
 import java.util.*;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
-
 /**
  * Class that takes two words and a dictionary and output the shortest sequence
  * of doubly and singly joined words from the dictionary which are between the
