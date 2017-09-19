@@ -114,31 +114,37 @@ public class JoinUp{
      */
     public static boolean joinWords(String first,String second,int joinType) {
         int length = first.length() > second.length() ? second.length() : first.length();
-        int counter = 0;
-        int match = 0;
+        int match = length;
 
-        while (counter < length) {
+        while (match > length/2 + length%2) {
+            
+            String suf = first.substring(first.length() - (match - 1));
+            String pre = second.substring(0, match-1); 
 
-            if (first.charAt(first.length() - 1 - counter) == second.charAt(counter)) {
-                match++;
-            } else {
-                //System.out.println("Matched to " + match + " before reset"); 
-                match = 0;
+            if (suf.equals(pre)) {
+                break;
             }
 
-            counter++;
+            match--;
         }
-        if (joinType == 0 && match > length/2) {
+
+        // try {
+        //     Thread.sleep(100);
+        // } catch (InterruptedException e) {}
+
+        
+        if (joinType == 0 && match > length/2 + length % 2) {
             return true;
         }
         
         if (joinType == 1 ) {
             if (match > first.length() / 2 + first.length() % 2 
-                    && match > second.length() /2 + second.length() % 2) {
+                && match > second.length() /2 + second.length() % 2) {
                 return true;
             }
         }
         return false;
+    
     }
         
 }
