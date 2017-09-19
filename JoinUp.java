@@ -14,7 +14,7 @@ public class JoinUp{
     //Last word in the sequence
     private static String lastWord;
     //Dictionary of word used to fill the sequence
-    private static ArrayList<String> dict = new ArrayList<>();
+    private static HashMap<Character, ArrayList> dict = new HashMap<>();;
 
     /**
      * Main method which fill up the dictionary from standard in and sets
@@ -29,7 +29,14 @@ public class JoinUp{
 
         Scanner sc = new Scanner(System.in);
         while (sc.hasNextLine()) {
-            dict.add(sc.nextLine());
+            String word = sc.nextLine();
+            if(dict.containsKey(word.charAt(0))) {
+                dict.get(word.charAt(0)).add(word);
+            } else {
+                ArrayList<String> wordGroup = new ArrayList<>();
+                wordGroup.add(word);
+                dict.put(word.charAt(0), wordGroup);
+            }
         }
 
         findSequence();
@@ -81,17 +88,25 @@ public class JoinUp{
                     //Break while loop
                     currDepth = dict.size();
                 } else {
-                    //If not joined, find all word in dictionary that join
-                    //to currWord and add them to the queue.
-                    for(String word: dict) {
-                        if(joinWords(currWord.getWord(), word, i)) {
-                            LinkedWord newLink = new LinkedWord(word);
-                            //Set currWord as parent of new words, so we
-                            // can trace the sequence when outputing
-                            newLink.setParent(currWord);
-                            //Set new words depth to one more than currWord
-                            newLink.setDepth(currWord.getDepth() + 1);
-                            q.add(newLink);
+                    int length = currWord.getWord().length();
+                    for(int j = i == 0 ? 0 : length/2 + length%2 - 1; j < length; j++) {
+                        if(dict.containsKey(currWord.getWord().charAt((length - 1) - j))) {
+                            ArrayList<String> wordGroup = dict.get(currWord.getWord().charAt((length-1) - j));
+                            //If not joined, find all word in dictionary that join
+                            //to currWord and add them to the queue.
+                            for(String word: wordGroup) {
+                                if(!currWord.getWord().equals(word)) {
+                                    if(joinWords(currWord.getWord(), word, i)) {
+                                        LinkedWord newLink = new LinkedWord(word);
+                                        //Set currWord as parent of new words, so we
+                                        // can trace the sequence when outputing
+                                        newLink.setParent(currWord);
+                                        //Set new words depth to one more than currWord
+                                        newLink.setDepth(currWord.getDepth() + 1);
+                                        q.add(newLink);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
