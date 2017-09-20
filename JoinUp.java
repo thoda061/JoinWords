@@ -161,7 +161,11 @@ public class JoinUp{
             match--;
         }
 
-        if(joinType == 0 && match > length/2 + length%2) {
+        if(joinType == 0 && match > length/2 + length % 2) {
+            if(match > first.length()/2 + first.length()%2 &&
+               match > second.length()/2 + second.length()%2) {
+                return false;
+            }
             return true;
         }
 
