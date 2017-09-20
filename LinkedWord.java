@@ -1,10 +1,10 @@
 import java.util.*;
 
-/**
- * Class for storing infomation about a word inside a doubly/singly joined
- * word sequence.
+/** COSC326 Etude 7
+ * LinkedWord.java - Class for storing infomation about a word inside a
+ * doubly/singly joined word sequence.
  *
- * @author Daniel Thomson, ID: 5040702
+ * @author Daniel Thomson, ID: 5040702 & Will Shaw, ID: 8291780
  */
 public class LinkedWord {
 

@@ -1,11 +1,11 @@
 import java.util.*;
 
-/**
- * Class that takes two words and a dictionary and output the shortest sequence
- * of doubly and singly joined words from the dictionary which are between the
- * two given words.
+/** COSC326 Etude 7
+ * JoinUp.java - Class that takes two words and a dictionary and output the
+ * shortest sequence of doubly and singly joined words from the dictionary which
+ * are between the two given words.
  *
- * @author Daniel Thomson, ID: 5040702
+ * @author Daniel Thomson, ID: 5040702 & Will Shaw, ID: 8291780
  */
 public class JoinUp{
 
@@ -14,7 +14,7 @@ public class JoinUp{
     //Last word in the sequence
     private static String lastWord;
     //Dictionary of word used to fill the sequence
-    private static HashMap<Character, ArrayList> dict = new HashMap<>();;
+    private static HashMap<Character, ArrayList> dict = new HashMap<>();
 
     /**
      * Main method which fill up the dictionary from standard in and sets
@@ -28,10 +28,12 @@ public class JoinUp{
         lastWord = args[1];
 
         Scanner sc = new Scanner(System.in);
+        //Fills dictionary, adding words in to ArrayLists based on first
+        //letter and storing all the ArrayLists in a HashMap.
         while (sc.hasNextLine()) {
             String word = sc.nextLine();
             if(dict.containsKey(word.charAt(0))) {
-                dict.get(word.charAt(0)).add(word);
+                 dict.get(word.charAt(0)).add(word);
             } else {
                 ArrayList<String> wordGroup = new ArrayList<>();
                 wordGroup.add(word);
@@ -57,12 +59,16 @@ public class JoinUp{
         boolean found;
         //Output string
         String output;
+        //Stores words already added to the queue and used to stop stored word
+        //being added to the queue again.
+        HashSet<String> usedWords;
 
         //For loop for finding two sequence, once for singly joined and once
         // for doubly joined.
         for(int i = 0; i < 2; i++) {
             //Resets variables for each sequence
             q = new LinkedList<>();
+            usedWords = new HashSet<>();
             found = false;
             output = " " + lastWord;
             currDepth = 2;
@@ -88,26 +94,38 @@ public class JoinUp{
                     //Break while loop
                     currDepth = dict.size();
                 } else {
-                    int length = currWord.getWord().length();
-                    for(int j = i == 0 ? 0 : length/2 + length%2 - 1; j < length; j++) {
-                        if(dict.containsKey(currWord.getWord().charAt((length - 1) - j))) {
-                            ArrayList<String> wordGroup = dict.get(currWord.getWord().charAt((length-1) - j));
-                            //If not joined, find all word in dictionary that join
-                            //to currWord and add them to the queue.
-                            for(String word: wordGroup) {
-                                if(!currWord.getWord().equals(word)) {
-                                    if(joinWords(currWord.getWord(), word, i)) {
-                                        LinkedWord newLink = new LinkedWord(word);
-                                        //Set currWord as parent of new words, so we
-                                        // can trace the sequence when outputing
-                                        newLink.setParent(currWord);
-                                        //Set new words depth to one more than currWord
-                                        newLink.setDepth(currWord.getDepth() + 1);
-                                        q.add(newLink);
-                                    }
+                    //If not joined, find all word in dictionary that join
+                    //to currWord and add them to the queue.
+
+                    //Gets all unique chars of currWord
+                    HashSet<Character> wordChars = new HashSet<>();
+                    for(char c: currWord.getWord().toCharArray()) {
+                        wordChars.add(c);
+                    }
+                    //Use chars of currWord to select specfic word groups from
+                    //dict
+                    for(Character c: wordChars) {
+                       if(dict.containsKey(c)) {
+                          ArrayList<String> wordGroup = dict.get(c);
+                          //Tries to join each word in word group with
+                          //currWord, if word not in usedWords
+                          for(String word: wordGroup) {
+                             if(!usedWords.contains(word)) {
+                                if(joinWords(currWord.getWord(), word, i)) {
+                                   //Add word to usedWords
+                                   usedWords.add(word);
+                                   LinkedWord newLink = new LinkedWord(word);
+                                   //Set currWord as parent of new words, so we
+                                   // can trace the sequence when outputing
+                                   newLink.setParent(currWord);
+                                   //Set new words depth to one more than
+                                   //currWord
+                                   newLink.setDepth(currWord.getDepth() + 1);
+                                   q.add(newLink);
                                 }
-                            }
-                        }
+                             }         
+                          }
+                       }
                     }
                 }
             }
@@ -128,38 +146,33 @@ public class JoinUp{
      *                  wise.
      */
     public static boolean joinWords(String first,String second,int joinType) {
-        int length = first.length() > second.length() ? second.length() : first.length();
+        int length = first.length() > second.length() ? second.length() :
+            first.length();
         int match = length;
 
-        while (match > length/2 + length%2) {
-            
+        while(match > length/2 + length%2) {
             String suf = first.substring(first.length() - (match - 1));
-            String pre = second.substring(0, match-1); 
+            String pre = second.substring(0, match - 1);
 
-            if (suf.equals(pre)) {
+            if(suf.equals(pre)) {
                 break;
             }
 
             match--;
         }
 
-        // try {
-        //     Thread.sleep(100);
-        // } catch (InterruptedException e) {}
-
-        
-        if (joinType == 0 && match > length/2 + length % 2) {
+        if(joinType == 0 && match > length/2 + length%2) {
             return true;
         }
-        
-        if (joinType == 1 ) {
-            if (match > first.length() / 2 + first.length() % 2 
-                && match > second.length() /2 + second.length() % 2) {
+
+        if(joinType == 1) {
+            if(match > first.length()/2 + first.length()%2 &&
+               match > second.length()/2 + second.length()%2) {
                 return true;
             }
         }
+
         return false;
-    
     }
         
 }
