@@ -16,6 +16,10 @@ public class JoinUp{
     //Dictionary of word used to fill the sequence
     private static HashMap<Character, ArrayList> dict = new HashMap<>();
 
+    private static boolean isDouble = false;
+
+    private static boolean isSingle = false;
+
     /**
      * Main method which fill up the dictionary from standard in and sets
      * firstWord and lastWord from command line arguments. Also calls
@@ -26,6 +30,17 @@ public class JoinUp{
     public static void main(String[]args) {
         firstWord = args[0];
         lastWord = args[1];
+
+        // If the words are the same, then we immediately know they are not
+        // singly joined, and the shortest double join is it and itself.
+        if (firstWord.equals(lastWord)) {
+            System.out.println(0);
+            System.out.println("1 " + firstWord);
+            System.exit(0);
+        }
+
+        isSingle = joinWords(firstWord, lastWord, 0);
+        isDouble = joinWords(firstWord, lastWord, 1);
 
         Scanner sc = new Scanner(System.in);
         //Fills dictionary, adding words in to ArrayLists based on first
@@ -40,8 +55,8 @@ public class JoinUp{
                 dict.put(word.charAt(0), wordGroup);
             }
         }
-
         findSequence();
+        sc.close();
     }
 
     /**
@@ -88,7 +103,13 @@ public class JoinUp{
                         output = " " + currWord.getWord() + output;
                         currWord = currWord.getParent();
                     } while (currWord != null);
-                    System.out.println(currDepth + output);
+                    if (isSingle && i == 0) {
+                        System.out.println("1 " + firstWord + " " + lastWord);
+                    } else if (isDouble && i == 1) {
+                        System.out.println("1 " + firstWord + " " + lastWord);                        
+                    } else {
+                        System.out.println(currDepth + output);
+                    }
                     //Indicate sequence found
                     found = true;
                     //Break while loop
@@ -175,7 +196,7 @@ public class JoinUp{
                 return true;
             }
         }
-
+        
         return false;
     }
         
