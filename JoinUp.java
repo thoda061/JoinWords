@@ -14,11 +14,7 @@ public class JoinUp{
     //Last word in the sequence
     private static String lastWord;
     //Dictionary of word used to fill the sequence
-    private static HashMap<Character, ArrayList> dict = new HashMap<>();
-
-    private static boolean isDouble = false;
-
-    private static boolean isSingle = false;
+    private static HashMap<Character, ArrayList<String>> dict = new HashMap<>();
 
     /**
      * Main method which fill up the dictionary from standard in and sets
@@ -34,13 +30,10 @@ public class JoinUp{
         // If the words are the same, then we immediately know they are not
         // singly joined, and the shortest double join is it and itself.
         if (firstWord.equals(lastWord)) {
-            System.out.println(0);
+            System.out.println("1 " + firstWord);            
             System.out.println("1 " + firstWord);
             System.exit(0);
         }
-
-        isSingle = joinWords(firstWord, lastWord, 0);
-        isDouble = joinWords(firstWord, lastWord, 1);
 
         Scanner sc = new Scanner(System.in);
         //Fills dictionary, adding words in to ArrayLists based on first
@@ -103,13 +96,7 @@ public class JoinUp{
                         output = " " + currWord.getWord() + output;
                         currWord = currWord.getParent();
                     } while (currWord != null);
-                    if (isSingle && i == 0) {
-                        System.out.println("1 " + firstWord + " " + lastWord);
-                    } else if (isDouble && i == 1) {
-                        System.out.println("1 " + firstWord + " " + lastWord);                        
-                    } else {
-                        System.out.println(currDepth + output);
-                    }
+                    System.out.println(currDepth + output);
                     //Indicate sequence found
                     found = true;
                     //Break while loop
@@ -171,23 +158,21 @@ public class JoinUp{
             first.length();
         int match = length + 1;
 
-        while(match > length/2 + length%2) {
+        while(match > length/2) {
             String suf = first.substring(first.length() - (match - 1));
             String pre = second.substring(0, match - 1);
 
             if(suf.equals(pre)) {
                 break;
             }
-
             match--;
         }
 
-        if(joinType == 0 && match > length/2 + length % 2) {
-            if(match > first.length()/2 + first.length()%2 &&
-               match > second.length()/2 + second.length()%2) {
-                return false;
+        if(joinType == 0) {
+            if(match > first.length()/2 &&
+               match > second.length()/2) {
+                return true;
             }
-            return true;
         }
 
         if(joinType == 1) {
