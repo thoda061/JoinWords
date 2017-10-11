@@ -156,7 +156,7 @@ public class JoinUp {
     public static boolean joinWords(String first, String second, int joinType) {
         int length = first.length() > second.length() ? 
                                       second.length() : first.length();
-        int match = length + 1;
+        int match = length;
 
         while (match > length / 2) {
             String suf = first.substring(first.length() - (match - 1));
@@ -174,11 +174,9 @@ public class JoinUp {
             }
         }
 
-        if (joinType == 1) {
-            if (match > first.length() / 2 + first.length() % 2 
-                && match > second.length() / 2 + second.length() % 2) {
-                return true;
-            }
+        if (match > first.length() / 2 + first.length() % 2 
+            && match > second.length() / 2 + second.length() % 2) {
+            return true;
         }
 
         return false;
