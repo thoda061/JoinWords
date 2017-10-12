@@ -161,32 +161,20 @@ public class JoinUp {
 
         int match = 0;
 
-        if (type == 0) {
-            for (int i = longest - shortest; i < longest; i++) {
-                if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
-                    match ++;
-                    if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
-                        break;
-                    }
-                } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
-                    match = 1;
-                } else {
-                    match = 0;
-                }
-            }
-        } else {
+        if (type == 1) {
             req = longest / 2 + longest % 2;
-            for (int i = longest - shortest; i < longest; i++) {
-                if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
-                    match ++;
-                    if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
-                        break;
-                    }
-                } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
-                    match = 1;
-                } else {
-                    match = 0;
+        }
+
+        for (int i = longest - shortest; i < longest; i++) {
+            if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
+                match ++;
+                if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
+                    break;
                 }
+            } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
+                match = 1;
+            } else {
+                match = 0;
             }
         }
 
