@@ -155,10 +155,18 @@ public class JoinUp {
      */
     public static boolean joinWords(String first, String second, int joinType) {
         int length = first.length() > second.length() ? 
-                                      second.length() : first.length();
+                                second.length() : first.length();
         int match = length;
+        if (length % 2 != 0) {
+            match = length + 1;
+        }
 
-        while (match > length / 2) {
+        int half = length / 2;
+        if (length % 2 != 0) {
+            half -= 1;
+        }
+
+        while (match > half) {
             String suf = first.substring(first.length() - (match - 1));
             String pre = second.substring(0, match - 1);
 
@@ -169,7 +177,10 @@ public class JoinUp {
         }
 
         if (joinType == 0) {
-            if (match > first.length() / 2 && match > second.length() / 2) {
+            if (match > first.length() / 2 && match > second.length() / 2 + second.length() % 2) {
+                return true;
+            }
+            if (match > first.length() / 2 + first.length() % 2 && match > second.length() / 2) {
                 return true;
             }
         }
