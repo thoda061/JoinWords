@@ -147,9 +147,9 @@ public class JoinUp {
     /**
      * Check if two words are join, either singly or doubly depending on input
      *
-     * @param first left hand side of the join
-     * @param second right hand side of the join
-     * @param joinType 0 for singly joined, 1 for doubly
+     * @param one left hand side of the join
+     * @param two right hand side of the join
+     * @param type 0 for singly joined, 1 for doubly
      * @return boolean true if join possible between given words, false other
      *                  wise.
      */
@@ -157,24 +157,25 @@ public class JoinUp {
         int longest = one.length() > two.length() ? one.length() : two.length();
         int shortest = one.length() > two.length() ? two.length() : one.length();
 
-        int req = shortest / 2 + shortest % 2;
+        int req = shortest / 2 + shortest % 2; // Required size by default is half shortest.
 
-        int match = 0;
+        int match = 0; // Keeps track of number of successful consecutive matches.
 
         if (type == 1) {
-            req = longest / 2 + longest % 2;
+            req = longest / 2 + longest % 2; // If join is double, required size if half longest.
         }
 
-        for (int i = longest - shortest; i < longest; i++) {
+        for (int i = 0; i < longest; i++) {
             if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
-                match ++;
+                match ++; // Increment matched count.
+                // Double check the found pattern isn't in the middle of a string. (It's at the end)
                 if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
-                    break;
+                    break; // Break so that the match isn't reset.
                 }
             } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
-                match = 1;
+                match = 1; // If current doesn't match the next pattern, but does match the first.
             } else {
-                match = 0;
+                match = 0; // If current doesn't match next patter or first, full reset.
             }
         }
 
