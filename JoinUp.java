@@ -154,14 +154,46 @@ public class JoinUp {
      *                  wise.
      */
     public static boolean joinWords(String first, String second, int joinType) {
-        int length = first.length() > second.length() ? 
+        int length;
+        int small = first.length() > second.length() ?
+                               second.length() : first.length();
+        if(joinType == 0) {
+            length = first.length() > second.length() ?
+                               second.length() : first.length();
+            if(length%2 == 0) {
+               length /= 2;
+            } else {
+               length = (length/2)+1;
+            }
+        } else {
+            length = first.length() > second.length() ?
+                                 first.length() : second.length();
+            if(length%2 == 0) {
+                length /= 2;
+            } else {
+                length = (length/2)+1;
+            }
+            if(length > small) {
+                return false;
+            }
+        }
+
+        for(int i = length; i <= small; i++) {
+            String suf = first.substring(first.length() - i);
+            String pre = second.substring(0, i);
+            if(suf.equals(pre)) {
+                return true;
+            }
+        }
+
+        return false;
+
+         
+        /*int length = first.length() > second.length() ? 
                                 second.length() : first.length();
         int match = length;
         if (length % 2 != 0) {
             match = length + 1;
-        }
-        if(joinType == 0) {
-            match = length+1;
         }
 
         int half = length / 2;
@@ -193,7 +225,7 @@ public class JoinUp {
             return true;
         }
 
-        return false;
+        return false;*/
     }
 
 }
