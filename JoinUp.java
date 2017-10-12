@@ -153,29 +153,44 @@ public class JoinUp {
      * @return boolean true if join possible between given words, false other
      *                  wise.
      */
-    public static boolean joinWords(String first, String second, int joinType) {
-        int length = first.length() > second.length() ? 
-                                      second.length() : first.length();
-        int match = length;
+    public static boolean joinWords(String one, String two, int type) {
+        int longest = one.length() > two.length() ? one.length() : two.length();
+        int shortest = one.length() > two.length() ? two.length() : one.length();
 
-        while (match > length / 2) {
-            String suf = first.substring(first.length() - (match - 1));
-            String pre = second.substring(0, match - 1);
+        int req = shortest / 2 + shortest % 2;
 
-            if (suf.equals(pre)) {
-                break;
+        int match = 0;
+
+        if (type == 0) {
+            for (int i = longest - shortest; i < longest; i++) {
+                if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
+                    match ++;
+                    if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
+                        break;
+                    }
+                } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
+                    match = 1;
+                } else {
+                    match = 0;
+                }
             }
-            match--;
+        } else {
+            req = longest / 2 + longest % 2;
+            for (int i = longest - shortest; i < longest; i++) {
+                if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
+                    match ++;
+                    if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
+                        break;
+                    }
+                } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
+                    match = 1;
+                } else {
+                    match = 0;
+                }
+            }
         }
 
-        if (joinType == 0) {
-            if (match > first.length() / 2 && match > second.length() / 2) {
-                return true;
-            }
-        }
-
-        if (match > first.length() / 2 + first.length() % 2 
-            && match > second.length() / 2 + second.length() % 2) {
+        if (match >= req) {
             return true;
         }
 
