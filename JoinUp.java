@@ -160,6 +160,9 @@ public class JoinUp {
         if (length % 2 != 0) {
             match = length + 1;
         }
+        if(joinType == 0) {
+            match = length+1;
+        }
 
         int half = length / 2;
         if (length % 2 != 0) {
