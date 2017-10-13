@@ -172,10 +172,13 @@ public class JoinUp {
                 match ++; // Increment matched count.
                 // Double check the found pattern isn't in the middle of a string. (It's at the end)
                 if (match >= req && one.charAt(one.length() - match) == two.charAt(0) && i == one.length() - 1) {
-                    break; // Break so that the match isn't reset.
+                    return true;
                 }
             } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
                 match = 1; // If current doesn't match the next pattern, but does match the first.
+                if (match >= req && one.charAt(one.length() - match) == two.charAt(0) && i == one.length() - 1) {
+                    return true;
+                }
             } else {
                 match = 0; // If current doesn't match next patter or first, full reset.
             }
