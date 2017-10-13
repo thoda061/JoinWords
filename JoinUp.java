@@ -169,7 +169,7 @@ public class JoinUp {
             if (i < one.length() && match < two.length() && one.charAt(i) == two.charAt(match)) {
                 match ++; // Increment matched count.
                 // Double check the found pattern isn't in the middle of a string. (It's at the end)
-                if (match >= req && one.charAt(one.length() - match) == two.charAt(0)) {
+                if (match >= req && one.charAt(one.length() - match) == two.charAt(0) && i == one.length() - 1) {
                     break; // Break so that the match isn't reset.
                 }
             } else if (i < one.length() && one.charAt(i) == two.charAt(0)) {
