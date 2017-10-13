@@ -10,6 +10,7 @@ import java.util.*;
 public class JoinUp {
 
     //First word in the sequence
+    private static int dictSize = 0;
     private static String firstWord;
     //Last word in the sequence
     private static String lastWord;
@@ -47,6 +48,7 @@ public class JoinUp {
                 wordGroup.add(word);
                 dict.put(word.charAt(0), wordGroup);
             }
+            dictSize++;
         }
         findSequence();
         sc.close();
@@ -80,11 +82,11 @@ public class JoinUp {
             found = false;
             output = " " + lastWord;
             currDepth = 2;
-            q.add(new LinkedWord(firstWord));
+            q.add(new LinkedWord(firstWord));;
 
             //While queue has items and sequence length is less the dictionary
             // size (to stop potential infinte loops of joined words)
-            while (q.peek() != null && currDepth != dict.size()) {
+            while (q.peek() != null && currDepth != dictSize) {
                 currWord = q.remove();
                 currDepth = currWord.getDepth();
                 //Check if currWord is joined with lastWord
@@ -100,7 +102,7 @@ public class JoinUp {
                     //Indicate sequence found
                     found = true;
                     //Break while loop
-                    currDepth = dict.size();
+                    currDepth = dictSize;
                 } else {
                     //If not joined, find all word in dictionary that join
                     //to currWord and add them to the queue.
